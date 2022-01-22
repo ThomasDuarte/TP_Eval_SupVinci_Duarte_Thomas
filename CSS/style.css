@@ -16,8 +16,7 @@ body {
 header {
     display: flex;
     flex-direction: row;
-    margin-left: 5%;
-    margin-top: 5%;
+    margin: 2%;
 }
 
 .headerTexte{
@@ -51,11 +50,21 @@ main nav ul {
 }
 
 .boutonFavoris {
-    flex: 1;
+    display: flex;
     box-shadow: 0 0 10px white;
-    justify-content: center;
-    align-items: center;
     font-size: 1rem;
 }
 
+/*#### Section ####*/
+section{
+    background-color: red;
+    width: 80%;
+    height: 80vh;
+    margin-left: 10%;
+}
+
 /*#### Footer ####*/
+footer{
+    background-color: blue;
+    height: 5vh;
+}

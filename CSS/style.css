@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html, body {
     min-height: 100vh;
     max-height: 100vh;
@@ -28,6 +32,14 @@ header {
     margin-left: 5%;
 }
 
+.headerTexte h2{
+    font-size: xx-large;
+}
+
+.headerTexte h1{
+    font-size: x-large;
+}
+
 .logo {
     object-fit: contain;
     width: 10%;
@@ -35,12 +47,14 @@ header {
 
 /*#### Menu ####*/
 main nav{
+    position: relative;
     width: 100%;
     background-color: purple;
 }
 
 main nav ul {
     display: flex;
+    width: 900px;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -61,13 +75,13 @@ main nav ul li{
 }
 
 .boutonValider{
-    margin-top: 1rem;
-    width: 50%;
-    height: 50%;
+
 }
 
 .boutonFavoris {
     display: flex;
+    position: absolute;
+    right: 20px;
     box-shadow: 0 0 10px white;
     font-size: 1rem;
 }
@@ -76,8 +90,13 @@ main nav ul li{
 section{
     background-color: white;
     width: 80%;
-    height: 80vh;
+    /*height: 80vh;*/
     margin-left: 10%;
+    padding: 4px;
+}
+
+section h3{
+    color: black;
 }
 
 /*#### Footer ####*/
@@ -131,4 +150,73 @@ footer{
 
 .footer .colonnes ul li:hover {
     color: white;
+}
+
+.conteneur {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border: 1px solid black;
+    width: 100%;
+}
+
+.apercuJeu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    max-width: 250px;
+    min-width: 250px;
+    height: auto;
+    margin: 30px 0;
+    background-color: blue;
+    border: 2px solid black;
+    padding: 3px;
+}
+
+.apercuJeu img{
+    max-width: 250px;
+}
+
+.plateformes {
+    display: flex;
+}
+
+.plateformes p{
+    font-size: small;
+    color : white;
+    background-color: darkgray;
+    margin: 2px;
+    border: thick double black;
+}
+
+.premierePartieFiche{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: black;
+}
+
+.premierePartieFiche h2{
+    font-size: xx-large;
+}
+
+.premierePartieFiche img{
+    width: 300px;
+}
+
+.deuxiemePartieFiche{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.descriptionCourte{
+    color: black;
+    font-size: larger;
+}
+
+.descriptionNormale{
+    color: black;
 }

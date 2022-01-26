@@ -1,29 +1,109 @@
+
 window.onload = initialisation;
-let sectionPrincipale;
+let sectionPrincipale = document.querySelector("section");
+let mapJeux = new Map();
+
 function initialisation() {
     //Récupérer l'élément HTML sectionPrincipale
-
+    //this.sectionPrincipale = document.querySelector("section");
+    if (sectionPrincipale) {
+        throw new Error("Balise Section introuvable");
+    }
     //Récupérer mon bouton valider
+    const boutonValider = document.querySelector(".boutonValider");
+    if (!boutonValider) {
+        throw new Error("boutonValider introuvable");
+    }
     //Et y ajouter un évènement avec onclick ou addEventListener
-    //En l'occurence, on va appeler la fonction effectuerRecherche
+    boutonValider.addEventListener("click", afficherListeJeux);
 }
 
-async function effectuerRecherche() {
+
+
+async function telechargerDonnees() {
     //On récupère l'input barreRecherche
-    //On récupère la valeur avec input.value
+    const saisieBarreRecherche = document.querySelector(".barreRecherche").value;
+    console.log(saisieBarreRecherche);
     //On fait le fetch en utilisant l'url de l'api et en y insérant la recherche
-    //https://www.giantbomb.com/api/games/?api_key=[CLE API]&format=json&filter=name:[RECHERCHE]
-    //On récupère données avec response.json() (asynchrone) > variable resultat
-    //Le tableau des jeux sera dans resultat.results
-    //Je créé un tableau pour accueillir les instances de Jeu
-    //Je boucle sur resultat.results
-    //Pour chaque jeu, je fais new Jeu(resultat.results[i])
-    //J'ai une instance de Jeu, je la push dans mon tableau
-    //J'apelle afficherListeJeux() en lui donnant mon tableau en paramètres
+
+    let urlApi = "https://www.giantbomb.com/api/games/?api_key=1b6fb650c9161a0081d213a2a2efa859fb367212&format=json&filter=name:";
+    try{
+        if(saisieBarreRecherche != null) {
+            const urlRequete = urlApi + saisieBarreRecherche;
+            const resultatListeJeux = await fetch(urlRequete);
+            const jsonResultatListeJeux = await resultatListeJeux.json();
+
+            //Le tableau des jeux (listeJeux) sera dans resultat.results
+            const listeJeux = jsonResultatListeJeux.results;
+            if (!listeJeux || !Array.isArray(listeJeux)) {
+                throw new Error("Données réponse non conformes !");
+            }
+            listeJeux.forEach(jsonJeu =>{
+                const jeu = new Jeu(jsonJeu);
+                mapJeux.set(jeu.guId, jeu);
+            });
+/*  Commentaires
+            //Le tableau des jeux (listeJeux) sera dans resultat.results
+            const listeJeux = jsonResultatListeJeux.results;
+            if (!listeJeux || !Array.isArray(listeJeux) || listeJeux.length === 0) {
+                throw new Error("Données réponse non conformes !");
+            }
+            //Je créé un tableau pour accueillir les instances de Jeu
+            const tableauPromiseJeux = [];
+            //Je boucle sur resultat.results
+            listeJeux.forEach(objListe=>{
+                const promiseJeux = fetch(objListe.url);
+                //J'ai une instance de Jeu, je la push dans mon tableau
+                tableauPromiseJeux.push(promiseJeux);
+            });
+            //Tableau des promises jeux
+            const jsonJeux = await Promise.all(tableauPromiseJeux);
+
+            //Pour chaque jeu, je fais new Jeu(resultat.results[i])
+            for (let i = 0; i < listeJeux.length; i++) {
+                const jsonJeu = jsonJeux[i];
+                const jeu = new Jeu(jsonJeu);
+            }
+            //J'apelle afficherListeJeux() en lui donnant mon tableau en paramètres
+*/
+            return mapJeux;
+        }else{
+            alert("Veuillez saisir le nom de jeux à rechercher");
+            return null;
+        }
+    }catch (e) {
+        console.error(e);
+        alert("Erreur pendant le téléchargement des jeux");
+    }
 }
 
-function afficherListeJeux(tableauJeux) {
+async function afficherListeJeux(tableauJeux) {
+    let sectionPrincipale = document.querySelector("section");
     //Je vide sectionPrincipale sectionPrincipale.innerHTML = "";
+    sectionPrincipale.innerHTML = "";
+    //Mettre Loader (Penser a le Styliser)
+    const loader = document.createElement("div");
+    loader.classList.add("loader");
+    sectionPrincipale.append(loader);
+
+    const mapJeux = await telechargerDonnees();
+
+    const conteneur = document.createElement("div");
+    conteneur.classList.add("conteneur");
+    sectionPrincipale.append(conteneur);
+
+    mapJeux.forEach(jeu =>{
+        const apercuJeu = document.createElement("div");
+        apercuJeu.classList.add("apercuJeu");
+        apercuJeu.innerHTML = `
+            <img src="${jeu.image}">
+            <h3>${jeu.nom}</h3>
+        `;
+        conteneur.append(apercuJeu);
+    });
+
+    /*
+    sectionPrincipale.innerHTML = "";
     //Je boucle sur tableauxJeux
     //Pour chaque jeu :
     //Je créé ma div apercuJeu
@@ -37,6 +117,8 @@ function afficherListeJeux(tableauJeux) {
     `;
     //Je défini un évènement click sur divApercuJeu, qui appellera afficherFicheJeu()
     //J'append dans sectionPrincipale
+
+     */
 }
 
 function afficherJeu(jeu) {
@@ -81,6 +163,7 @@ class Jeu{
     descriptionCourte = "";
     descriptionComplete = "";
     misEnFavoris = false;
+    guId = "";
 
     fichierJson;
 
@@ -88,9 +171,10 @@ class Jeu{
 
         this.nom = fichierJson.name;
         this.plateformes = fichierJson.platforms;
-        this.nbPlateformes = this.plateformes.length;
+        //this.nbPlateformes = this.plateformes.length;
         this.image = fichierJson.image.original_url;
         this.imageMiniature = fichierJson.image.small_url;
+        this.guId = fichierJson.guid;
 
         if (fichierJson.original_release_date !== null) {
             this.dateDeSortie = fichierJson.original_release_date;

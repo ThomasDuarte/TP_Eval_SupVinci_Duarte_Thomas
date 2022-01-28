@@ -35,6 +35,7 @@ async function telechargerDonnees() {
     let urlApi = "https://www.giantbomb.com/api/games/?api_key=1b6fb650c9161a0081d213a2a2efa859fb367212&format=json&filter=name:";
     try{
         if(saisieBarreRecherche != null) {
+
             const urlRequete = urlApi + saisieBarreRecherche;
             const resultatListeJeux = await fetch(urlRequete);
             const jsonResultatListeJeux = await resultatListeJeux.json();
@@ -48,35 +49,13 @@ async function telechargerDonnees() {
                 const jeu = new Jeu(jsonJeu);
                 mapJeux.set(jeu.guId, jeu);
             });
-/*  Commentaires
-            //Le tableau des jeux (listeJeux) sera dans resultat.results
-            const listeJeux = jsonResultatListeJeux.results;
-            if (!listeJeux || !Array.isArray(listeJeux) || listeJeux.length === 0) {
-                throw new Error("Données réponse non conformes !");
-            }
-            //Je créé un tableau pour accueillir les instances de Jeu
-            const tableauPromiseJeux = [];
-            //Je boucle sur resultat.results
-            listeJeux.forEach(objListe=>{
-                const promiseJeux = fetch(objListe.url);
-                //J'ai une instance de Jeu, je la push dans mon tableau
-                tableauPromiseJeux.push(promiseJeux);
-            });
-            //Tableau des promises jeux
-            const jsonJeux = await Promise.all(tableauPromiseJeux);
-
-            //Pour chaque jeu, je fais new Jeu(resultat.results[i])
-            for (let i = 0; i < listeJeux.length; i++) {
-                const jsonJeu = jsonJeux[i];
-                const jeu = new Jeu(jsonJeu);
-            }
-            //J'apelle afficherListeJeux() en lui donnant mon tableau en paramètres
-*/
-            console.log(mapJeux);
             return mapJeux;
+
         }else{
+
             alert("Veuillez saisir le nom de jeux à rechercher");
             return null;
+
         }
     }catch (e) {
         console.error(e);
@@ -88,10 +67,11 @@ async function afficherListeJeux() {
     let sectionPrincipale = document.querySelector("section");
     //Je vide sectionPrincipale sectionPrincipale.innerHTML = "";
     sectionPrincipale.innerHTML = "";
-    //Mettre Loader (Penser a le Styliser)
+    //Mettre Loader
     const loader = document.createElement("div");
     loader.classList.add("loader");
-    sectionPrincipale.innerHTML = "";
+    sectionPrincipale.innerHTML = `
+    `;
     sectionPrincipale.append(loader);
 
     const mapJeux = await telechargerDonnees();
@@ -102,6 +82,7 @@ async function afficherListeJeux() {
     sectionPrincipale.append(conteneur);
 
     mapJeux.forEach(jeu =>{
+
         const apercuJeu = document.createElement("div");
         apercuJeu.classList.add("apercuJeu");
         apercuJeu.innerHTML = `
@@ -109,6 +90,7 @@ async function afficherListeJeux() {
             <div class="plateformes"></div>
             <h3>${jeu.nom}</h3>
         `;
+
         //Récupérer mon bouton apercuJeu
         //Et y ajouter un évènement avec onclick ou addEventListener
         apercuJeu.addEventListener("click", () =>{
@@ -116,25 +98,6 @@ async function afficherListeJeux() {
         });
         conteneur.append(apercuJeu);
     });
-
-    /*
-    sectionPrincipale.innerHTML = "";
-    //Je boucle sur tableauxJeux
-    //Pour chaque jeu :
-    //Je créé ma div apercuJeu
-    const divApercuJeu = document.createElement("div");
-    divApercuJeu.classList.add("apercuJeu");
-    //Je détermine son innerHTML
-    divApercuJeu.innerHTML = `
-        <img src="${jeu.imageMiniature}">
-        <div class="plateformes"></div>
-        <h3>Hyperballoid Deluxe: Survival Pack</h3>        
-    `;
-    //Je défini un évènement click sur divApercuJeu, qui appellera afficherFicheJeu()
-    //J'append dans sectionPrincipale
-
-     */
-
 }
 
 function afficherJeu(jeu) {
@@ -147,27 +110,27 @@ function afficherJeu(jeu) {
     //Je détermine son innerHTML
     divFicheJeu.innerHTML = `
         <div class="premierePartieFiche">
-                        <h2>${jeu.nom}</h2>
-                        <button class="ajouterFavoris">Ajouter aux favoris</button>
-                        <button class="retirerFavoris">Retirer des favoris</button>
-                        <img src=${jeu.imageMiniature}>
-                    </div>
-                    <div class="deuxiemePartieFiche">
-                        <div class="plateformes">
-                            <p>PC</p>
-                            <p>PC</p>
-                            <p>PC</p>
-                            <p>PC</p>
-                            <p>+99</p>
-                        </div>
-                        <h3>${jeu.dateDeSortie}</h3>
-                    </div>
-                    <div class="descriptionCourte">
-                        ${jeu.descriptionCourte}
-                    </div>
-                    <div class="descriptionComplete">
-                        ${jeu.descriptionComplete}
-                    </div>        
+            <h2>${jeu.nom}</h2>
+            <button class="ajouterFavoris">Ajouter aux favoris</button>
+            <button class="retirerFavoris">Retirer des favoris</button>
+            <img src=${jeu.imageMiniature}>
+        </div>
+        <div class="deuxiemePartieFiche">
+            <div class="plateformes">
+                <p>PC</p>
+                <p>PC</p>
+                <p>PC</p>
+                <p>PC</p>
+                <p>+99</p>
+            </div>
+            <h3>${jeu.dateDeSortie}</h3>
+        </div>
+        <div class="descriptionCourte">
+            ${jeu.descriptionCourte}
+        </div>
+        <div class="descriptionComplete">
+            ${jeu.descriptionComplete}
+        </div>        
     `;
 
     const boutonAjouter = divFicheJeu.querySelector(".ajouterFavoris");
@@ -219,7 +182,7 @@ function afficherListeFavoris(){
     let sectionPrincipale = document.querySelector("section");
     //Je vide sectionPrincipale sectionPrincipale.innerHTML = "";
     sectionPrincipale.innerHTML = "";
-    //Mettre Loader (Penser a le Styliser)
+    //Mettre Loader
     const loader = document.createElement("div");
     loader.classList.add("loader");
     sectionPrincipale.innerHTML = "";
@@ -251,7 +214,7 @@ function afficherListeFavoris(){
         });
     }else{
         sectionPrincipale.innerHTML=`
-            <div style=" width: 100%; text-align: center">
+            <div style="width: 100%; text-align: center">
             <h2 style="color: black"">Aucun jeu en favoris</h2>
             </div>
         `;
@@ -269,11 +232,9 @@ class Jeu{
     descriptionComplete = "";
     misEnFavoris = false;
     guId = "";
-
     fichierJson;
 
     constructor(fichierJson) {
-
         this.fichierJson = fichierJson;
         this.nom = fichierJson.name;
         this.plateformes = fichierJson.platforms;
@@ -287,12 +248,7 @@ class Jeu{
         } else {
             this.dateDeSortie = "Sortie prévue : " + fichierJson.expected_release_year;
         }
-
         this.descriptionCourte = fichierJson.deck;
         this.descriptionComplete = fichierJson.description;
-    }
-
-    static setMisEnFavoris(){
-        this.misEnFavoris = !this.misEnFavoris;
     }
 }

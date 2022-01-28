@@ -88,76 +88,14 @@ main nav ul li{
 
 /*#### Section ####*/
 section{
-    background-color: white;
+    background-color: yellow;
     width: 80%;
-    /*height: 80vh;*/
     margin-left: 10%;
     padding: 4px;
 }
 
 section h3{
     color: black;
-}
-
-/*#### Footer ####*/
-footer{
-    width: 100%;
-    position: relative;
-    height: auto;
-    background-color: #070617;
-}
-
-.footer .colonnes {
-    width: 30%;
-    height: auto;
-    float: left;
-    text-align: center;
-    margin-left: 40px;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    padding: 0px 20px 20px 20px;
-}
-
-.footer .colonnes h1 {
-    margin: 0;
-    padding: 0;
-    font-family: inherit;
-    font-size: 12px;
-    line-height: 17px;
-    padding: 20px 0px 5px 0px;
-    color: chartreuse;;
-    font-weight: normal;
-    text-transform: uppercase;
-    letter-spacing: 0.250em;
-}
-
-.footer .colonnes ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-.footer .colonnes ul li {
-    color: #999999;
-    font-size: 14px;
-    font-family: inherit;
-    font-weight: bold;
-    padding: 5px 0px 5px 0px;
-    cursor: pointer;
-    transition: .2s;
-
-}
-
-.footer .colonnes ul li:hover {
-    color: white;
-}
-
-footer a{
-    text-decoration:none;
-}
-
-footer .colonnes h1:hover{
-    color: white;
 }
 
 .conteneur {
@@ -271,4 +209,65 @@ footer .colonnes h1:hover{
     100% {
         transform: var(--translate) rotate(360deg);
     }
+}
+
+/*#### Footer ####*/
+footer{
+    width: 100%;
+    position: relative;
+    height: auto;
+    background-color: #070617;
+}
+
+.footer .colonnes {
+    width: 30%;
+    height: auto;
+    float: left;
+    text-align: center;
+    margin-left: 40px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding: 0px 20px 20px 20px;
+}
+
+.footer .colonnes h1 {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 17px;
+    padding: 20px 0px 5px 0px;
+    color: chartreuse;;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.250em;
+}
+
+.footer .colonnes ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.footer .colonnes ul li {
+    color: #999999;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: bold;
+    padding: 5px 0px 5px 0px;
+    cursor: pointer;
+    transition: .2s;
+
+}
+
+.footer .colonnes ul li:hover {
+    color: white;
+}
+
+footer a{
+    text-decoration:none;
+}
+
+footer .colonnes h1:hover{
+    color: white;
 }

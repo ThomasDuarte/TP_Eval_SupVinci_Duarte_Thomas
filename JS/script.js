@@ -149,8 +149,15 @@ function afficherJeu(jeu) {
 }
 
 function ajouterAMesFavoris(jeu) {
-    mesJeux.set(jeu.guId, jeu);
+    if (confirm('Ajouter ce jeu à vos favoris ?')) {
+        // Save it!
+        console.log('Jeu ajouté aux favoris');
+        mesJeux.set(jeu.guId, jeu);
     sauvegarderMesJeux();
+    } else {
+        // Do nothing!
+        console.log('Jeu non ajouté aux favoris');
+    }
 }
 
 function sauvegarderMesJeux() {
@@ -173,8 +180,15 @@ function chargerMesJeux() {
 }
 
 function retirerJeu(monJeu) {
-    mesJeux.delete(monJeu.guId);
-    sauvegarderMesJeux();
+        if (confirm('Retirer ce jeu de vos favoris ?')) {
+            // Save it!
+            console.log('Jeu a été retiré de vos favoris')
+            mesJeux.delete(monJeu.guId);
+            sauvegarderMesJeux();
+        } else {
+            // Do nothing!
+            console.log('Jeu non rétiré des favoris');
+        }
 }
 
 function afficherListeFavoris(){
